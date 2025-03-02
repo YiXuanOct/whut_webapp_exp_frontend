@@ -21,6 +21,7 @@ function toggleBlueTheme() {
     document.documentElement.style.setProperty('--active-bg-color', 'rgb(235.9, 245.3, 255)');
     document.documentElement.style.setProperty('--main-bg-color', 'rgb(216.8, 235.6, 255)');
     document.documentElement.style.setProperty('--header-bg-color', 'rgb(51.2, 126.4, 204)');
+    document.documentElement.style.setProperty('--el-menu-hover-bg-color', 'rgb(235.9, 245.3, 255)');
 }
 
 function toggleYellowTheme() {
@@ -28,6 +29,7 @@ function toggleYellowTheme() {
     document.documentElement.style.setProperty('--active-bg-color', 'rgb(252.5, 245.7, 235.5)');
     document.documentElement.style.setProperty('--main-bg-color', 'rgb(250, 236.4, 216)');
     document.documentElement.style.setProperty('--header-bg-color', 'rgb(184, 129.6, 48)');
+    document.documentElement.style.setProperty('--el-menu-hover-bg-color', 'rgb(252.5, 245.7, 235.5)');
 }
 </script>
 

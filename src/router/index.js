@@ -14,5 +14,11 @@ const router = createRouter({
     history: createWebHistory(),
     routes
 })
+router.beforeEach((to, from, next) => {
+    if (to.path === '/home/front' && from.path === '/login') {
+        to.meta.data = {name: from.meta.name}
+    }
+    next();
+})
 
 export default router

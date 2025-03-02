@@ -2,12 +2,13 @@
 
 import Front from "@/components/home/Front.vue";
 import {useRoute} from "vue-router";
-import {onMounted, provide, ref, watch} from "vue";
+import {onMounted, onUnmounted, provide, ref, watch} from "vue";
 import User from "@/components/home/User.vue";
 import Menu from "@/components/home/Menu.vue";
+import router from "@/router/index.js";
 
 const user = ref({
-    name: '张三',
+    name: '',
     avatarUrl: "https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg",
 });
 const route = useRoute();
@@ -37,6 +38,9 @@ onMounted(loadComponent);
 onMounted(() => {
     window.addEventListener('resize', handleResize);
     handleResize();
+})
+onMounted(() => {
+    user.value.name = router.currentRoute.value.meta.data?.name;
 })
 </script>
 

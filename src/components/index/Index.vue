@@ -5,6 +5,7 @@ import {onMounted, ref, watch} from "vue";
 import {useRoute} from "vue-router";
 import Register from "@/components/index/register/Register.vue";
 import updatePwd from "@/components/index/updatePwd/updatePwd.vue";
+import {ElMessage} from "element-plus";
 
 const route = useRoute();
 const currentComponent = ref(null);
@@ -12,7 +13,8 @@ const componentMap = {login: Login, register: Register, updatePwd: updatePwd};
 const text = ref({
     header: "登录",
     "left-button": {text: "注册用户", type: "/register"},
-    "right-button": {text: "修改密码", type: "/updatePwd"}
+    "right-button": {text: "修改密码", type: "/updatePwd"},
+    alert: ''
 });
 
 function loadComponent() {
@@ -20,33 +22,52 @@ function loadComponent() {
     currentComponent.value = componentMap[componentName] || null;
 }
 
-watch(() => route.params.sub, loadComponent);
-onMounted(loadComponent);
-
-function toggle(type) {
-    if (type === "/register") {
-        text.value = {
-            header: "注册新用户",
-            "left-button": {text: "注册用户", type: ""},
-            "right-button": {text: "返回登录", type: "/login"}
-        }
-        router.push(type)
-    } else if (type === "/updatePwd") {
-        text.value = {
-            header: "修改密码",
-            "left-button": {text: "修改密码", type: ""},
-            "right-button": {text: "返回登录", type: "/login"}
-        }
-        router.push(type)
-    } else if (type === "/login") {
+function updateText() {
+    if (route.params.sub === "login") {
         text.value = {
             header: "登录",
             "left-button": {text: "注册用户", type: "/register"},
             "right-button": {text: "修改密码", type: "/updatePwd"}
         }
-        router.push(type)
+    } else if (route.params.sub === "register") {
+        text.value = text.value = {
+            header: "注册新用户",
+            "left-button": {text: "注册用户", type: "/submit"},
+            "right-button": {text: "返回登录", type: "/login"},
+            alert: "注册成功"
+        }
+    } else if (route.params.sub === "updatePwd") {
+        text.value = text.value = {
+            header: "修改密码",
+            "left-button": {text: "修改密码", type: "/submit"},
+            "right-button": {text: "返回登录", type: "/login"},
+            alert: "修改成功"
+        }
     }
 }
+
+watch(() => route.params.sub, loadComponent);
+watch(() => route.params.sub, updateText);
+onMounted(loadComponent);
+onMounted(updateText);
+
+async function toggle(type) {
+    if (type !== "/submit") {
+        router.push(type);
+    } else {
+        try {
+            const form = await formRef.value.getForm();
+            console.log(form);
+            ElMessage.success(text.value.alert);
+        } catch (error) {
+            console.log("表单校验失败");
+        }
+    }
+}
+
+
+const formRef = ref(null);
+
 </script>
 
 <template>
@@ -57,7 +78,7 @@ function toggle(type) {
                     <h1>{{ text.header }}</h1>
                 </div>
                 <div class="card-body">
-                    <component :is="currentComponent"/>
+                    <component :is="currentComponent" ref="formRef"/>
                 </div>
                 <div class="card-footer">
                     <el-button link color="black" @click="toggle(text['left-button'].type)">{{

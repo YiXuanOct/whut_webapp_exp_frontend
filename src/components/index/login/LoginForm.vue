@@ -1,5 +1,5 @@
 <script setup>
-import {reactive, ref} from "vue";
+import {ref} from "vue";
 import router from "@/router/index.js";
 
 const form = ref({
@@ -7,21 +7,34 @@ const form = ref({
     password: '',
 })
 
-function goToHomeFront() {
-    router.push("/home/front")
+const rules = ref({
+    name: [{required: true, message: '请输入用户名', trigger: 'blur'}],
+    password: [{required: true, message: '请输入密码', trigger: 'blur'}]
+})
+
+const formRef = ref(null);
+
+async function handleLogin() {
+    try {
+        await formRef.value.validate();
+        router.currentRoute.value.meta.name = form.value.name;
+        router.push("/home/front")
+    } catch (error) {
+
+    }
 }
 </script>
 
 <template>
-    <el-form :model="form">
-        <el-form-item>
+    <el-form :model="form" :rules="rules" ref="formRef">
+        <el-form-item prop="name">
             <el-input v-model="form.name" placeholder="用户名"/>
         </el-form-item>
-        <el-form-item>
+        <el-form-item prop="password">
             <el-input v-model="form.password" type="password" placeholder="密码"/>
         </el-form-item>
         <el-form-item>
-            <el-button type="success" @click="goToHomeFront">登录</el-button>
+            <el-button type="success" @click="handleLogin">登录</el-button>
         </el-form-item>
     </el-form>
 </template>

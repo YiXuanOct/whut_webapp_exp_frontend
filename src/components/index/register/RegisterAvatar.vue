@@ -4,9 +4,17 @@ import {ElMessage} from "element-plus";
 import {ref} from "vue";
 import {Plus} from "@element-plus/icons-vue";
 
-const imageUrl = ref('')
+const form = ref({
+    imageUrl: ""
+})
+const rules = {
+    imageUrl: [
+        {required: true, message: "请上传头像", trigger: "blur"},
+    ]
+}
+const formRef = ref(null);
 const handleAvatarSuccess = (response, uploadFile) => {
-    imageUrl.value = URL.createObjectURL(uploadFile.raw);
+    form.value.imageUrl.value = URL.createObjectURL(uploadFile.raw);
 };
 const beforeAvatarUpload = (rawFile) => {
     if (rawFile.type !== 'image/jpeg' && rawFile.type !== 'image/png') {
@@ -18,14 +26,28 @@ const beforeAvatarUpload = (rawFile) => {
     }
     return true
 }
+
+function getForm() {
+    return new Promise((resolve, reject) => {
+        formRef.value.validate((valid) => {
+            if (valid) {
+                resolve(form.value);
+            } else {
+                reject();
+            }
+        });
+    });
+}
+
+defineExpose({getForm})
 </script>
 
 <template>
-    <el-form label-position="top">
-        <el-form-item label="请上传头像">
+    <el-form label-position="top" :model="form" :rules="rules" ref="formRef" :hide-required-asterisk="true">
+        <el-form-item label="请上传头像" prop="imageUrl">
             <el-upload class="avatar-uploader" :show-file-list="false" :on-success="handleAvatarSuccess"
                        :before-upload="beforeAvatarUpload">
-                <img v-if="imageUrl" :src="imageUrl" class="avatar" alt=""/>
+                <img v-if="form.imageUrl" :src="form.imageUrl" class="avatar" alt=""/>
                 <el-icon v-else class="avatar-uploader-icon">
                     <Plus/>
                 </el-icon>
