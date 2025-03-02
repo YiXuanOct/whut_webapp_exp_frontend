@@ -1,0 +1,10 @@
+body {
+    margin: 0;
+}
+
+:root {
+    --menu-bg-color: rgb(121.3, 187.1, 255);
+    --active-bg-color: rgb(235.9, 245.3, 255);
+    --main-bg-color: rgb(216.8, 235.6, 255);
+    --header-bg-color: rgb(51.2, 126.4, 204);
+}
