@@ -90,6 +90,10 @@ function toggleYellowTheme() {
     background-color: var(--menu-bg-color);
 }
 
+.el-menu-item:not(.el-sub-menu .el-menu-item):hover {
+    background-color: var(--active-bg-color);
+}
+
 .el-menu-item.is-active {
     background-color: var(--active-bg-color) !important;
 }

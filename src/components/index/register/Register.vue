@@ -11,4 +11,8 @@ import RegisterAvatar from "@/components/index/register/RegisterAvatar.vue";
 </template>
 
 <style scoped>
+.el-divider {
+    height: auto;
+    border-left: 1px black solid;
+}
 </style>

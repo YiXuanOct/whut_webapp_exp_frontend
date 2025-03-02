@@ -113,10 +113,6 @@ function toggle(type) {
     justify-content: center;
 }
 
-.el-divider {
-    height: auto;
-    border-left: 1px black solid;
-}
 
 .card-footer {
     margin-top: 24px;
@@ -137,10 +133,6 @@ function toggle(type) {
     margin-left: 0;
 }
 
-.el-divider {
-    height: auto;
-    border-left: 1px black solid;
-}
 
 @media (max-width: 800px) {
     .el-container {

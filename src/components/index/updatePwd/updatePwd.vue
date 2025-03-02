@@ -10,4 +10,8 @@ import UpdatePwdNew from "@/components/index/updatePwd/UpdatePwdNew.vue";
 </template>
 
 <style scoped>
+.el-divider {
+    height: auto;
+    border-left: 1px black solid;
+}
 </style>
